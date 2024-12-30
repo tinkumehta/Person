@@ -32,23 +32,3 @@
    color: red;
 }
 
-/* footer section styling */
-footer{
-    background: #d14f4f;
-    padding: 15px 23px;
-    color: #fff;
-    text-align: center;
-}
-footer span a{
-    color: rgb(16, 114, 212);
-    text-decoration: none;
-}
-footer span a i {
-    font-size: 35px;
-    gap: 2px;
-    margin-left: 2px;
-    color: #fff;
-}
-footer span a:hover{
-    text-decoration: underline;
-}

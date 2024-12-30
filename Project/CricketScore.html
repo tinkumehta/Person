@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Score Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .score {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cricket Score Tracker</h1>
+        <div class="score" id="scoreDisplay">0/0 in 0.0 overs</div>
+        <button onclick="addRun(1)">Add 1 Run</button>
+        <button onclick="addRun(4)">Add 4 Runs</button>
+        <button onclick="addRun(6)">Add 6 Runs</button>
+        <button onclick="addWicket()">Add Wicket</button>
+        <button onclick="bowlBall()">Bowl Ball</button>
+        <button onclick="addOver()">Add Over</button>
+        <button onclick="setTarget()">Set Target</button>
+    </div>
+
+    <script>
+        let score = 0;
+        let wickets = 0;
+        let ballsBowled = 0;
+        let target = 0;
+        const totalOvers = 20;
+
+        function updateScoreDisplay() {
+            const overs = Math.floor(ballsBowled / 6);
+            const balls = ballsBowled % 6;
+            let targetDisplay = target > 0 ? ` | Target: ${target}` : "";
+            document.getElementById("scoreDisplay").innerText = `${score}/${wickets} in ${overs}.${balls} overs${targetDisplay}`;
+        }
+
+        function addRun(runs) {
+            if (wickets < 10 && !isInningsOver()) {
+                score += runs;
+                if (target > 0 && score >= target) {
+                    alert("Target achieved! Match over.");
+                }
+                updateScoreDisplay();
+            } else {
+                alert("Innings over! No more runs can be added.");
+            }
+        }
+
+        function addWicket() {
+            if (wickets < 10 && !isInningsOver()) {
+                wickets++;
+                updateScoreDisplay();
+            } else {
+                alert("All wickets are down! No more wickets can be added.");
+            }
+        }
+
+        function bowlBall() {
+            if (!isInningsOver()) {
+                ballsBowled++;
+                updateScoreDisplay();
+            } else {
+                alert("Innings over! No more balls can be bowled.");
+            }
+        }
+
+        function addOver() {
+            if (!isInningsOver()) {
+                ballsBowled += 6;
+                if (ballsBowled > totalOvers * 6) {
+                    ballsBowled = totalOvers * 6;
+                }
+                updateScoreDisplay();
+            } else {
+                alert("Innings over! No more overs can be added.");
+            }
+        }
+
+        function setTarget() {
+            const inputTarget = prompt("Enter the target score:");
+            if (inputTarget !== null && !isNaN(inputTarget) && parseInt(inputTarget) > 0) {
+                target = parseInt(inputTarget);
+                updateScoreDisplay();
+            } else {
+                alert("Invalid target score. Please enter a valid number.");
+            }
+        }
+
+        function isInningsOver() {
+            return ballsBowled === totalOvers * 6 || wickets === 10;
+        }
+    </script>
+</body>
+</html>
